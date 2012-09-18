@@ -1,0 +1,9 @@
+;;;  -*- Hen -*-
+
+(use setup-helper-mod)
+
+(verify-extension-name "csp")
+
+(setup-shared-extension-module 'csp (extension-version "1.0")
+  #:inline? #t #:types? #t
+  #:compile-options '(-O3 -d2))
