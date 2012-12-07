@@ -3,7 +3,7 @@
 (use nondeterminism define-structure srfi-1 traversal)
 
 (define-structure domain-variable domain before-demons after-demons)
-(define  *strategy* 'ac)
+(define  *csp-strategy* 'ac)
 
 (define (create-domain-variable domain)
  (when (null? domain) (fail))
@@ -339,7 +339,7 @@
 (define (assert-constraint! constraint domain-variables)
  (cond
   ((= (length domain-variables) 1)
-   (case *strategy*
+   (case *csp-strategy*
     ((efd) (assert-unary-constraint-efd! constraint (first domain-variables)))
     ((fc) (assert-unary-constraint-fc! constraint (first domain-variables)))
     ((vp) (assert-unary-constraint-fc! constraint (first domain-variables))
@@ -348,7 +348,7 @@
     ((ac) (assert-unary-constraint-ac! constraint (first domain-variables)))
     (else (error "Unrecognized strategy"))))
   ((= (length domain-variables) 2)
-   (case *strategy*
+   (case *csp-strategy*
     ((efd) (assert-binary-constraint-efd!
 	    constraint (first domain-variables) (second domain-variables)))
     ((fc) (assert-binary-constraint-fc!
@@ -363,7 +363,7 @@
 	   constraint (first domain-variables) (second domain-variables)))
     (else (error "Unrecognized strategy"))))
   ((= (length domain-variables) 3)
-   (case *strategy*
+   (case *csp-strategy*
     ((efd) (assert-ternary-constraint-efd! constraint
 					   (first domain-variables)
 					   (second domain-variables)

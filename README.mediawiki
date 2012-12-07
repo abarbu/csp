@@ -1,0 +1,110 @@
+= CSP =
+
+This is a Chicken Scheme egg which solves constraint satisfaction
+problems.
+
+A CSP is compsoed of a number of ''domain-variable''s that have a
+domain, a set of bindings they can assume, along with a number of
+constraints. This egg supports 5 kinds of constraints: ''efd'' (early
+failure detection), ''fc'' (forward checking), ''vp'' (value
+propagation), ''gfc'' (generalized forward checking) and ''ac'' (arc
+consistency).
+
+==== High-level ====
+
+:(csp-solution domain-variables select)
+
+Given a list of domain variables and a function to select which one to
+try to bind next, one can simply pass in ''first'', this produces a
+solution to the CSP.
+
+:(create-domain-variable domain)
+
+Create a domain variable whose domain is ''domain''.
+
+:(assert-constraint! constraint domain-variables)
+
+Assert a constraint, ''constraint'' is a function that returns a
+boolean, amongst a number of domain variables. The kind of constraint
+is determined by inspecting ''*strategy*''. Valid types are: ''efd''
+(early failure detection), ''fc'' (forward checking), ''vp'' (value
+propagation), ''gfc'' (generalized forward checking) and ''ac'' (arc
+consistency).
+
+:(bound? domain-variable)
+:(binding domain-variable)
+
+Determine if the domain variable is bound and what its binding is.
+
+==== Constraints ====
+
+:(assert-unary-constraint-gfc! constraint x)
+:(assert-binary-constraint-gfc! constraint x y)
+:(assert-ternary-constraint-gfc! constraint x y z)
+:(assert-unary-constraint-ac! constraint x)
+:(assert-binary-constraint-ac! constraint x y)
+:(assert-ternary-constraint-ac! constraint x y z)
+:(assert-unary-constraint-efd! constraint x)
+:(assert-binary-constraint-efd! constraint x y)
+:(assert-ternary-constraint-efd! constraint x y z)
+:(assert-unary-constraint-fc! constraint x)
+:(assert-binary-constraint-fc! constraint x y)
+:(assert-ternary-constraint-fc! constraint x y z)
+:(assert-unary-constraint-vp! constraint x)
+:(assert-binary-constraint-vp! constraint x y)
+:(assert-ternary-constraint-vp! constraint x y z)
+
+Assert each of the 5 kinds of constraints between domain-variables
+''x'', ''y'' and ''z''.
+
+:(assert-constraint-ac! constraint ds)
+
+Assert an arc consistency constraint between all domain-variables in
+the list ds.
+
+==== Low-level ====
+
+:(attach-before-demon! demon x)
+:(attach-after-demon! demon x)
+:(restrict-domain! x domain)
+
+Only of interest to implementors.
+
+=== Examples ===
+
+This solves [[Project Euler problem 43|http://projecteuler.net/problem=43]].
+
+  (let* ((ds (map-n (lambda _ (create-domain-variable (map-n identity 10))) 10))
+  	(d3 (lambda (ns) (+ (* (first ns) 100) (* (second ns) 10) (third ns))))
+  	(div (lambda (n) (lambda ns (= (modulo (d3 ns) n) 0))))
+  	(nthd (lambda (a b) (sublist ds (- a 1) b))))
+    (assert-constraint! (div 17) (nthd 8 10))
+    (assert-constraint! (div 13) (nthd 7 9))
+    (assert-constraint! (div 11) (nthd 6 8))
+    (assert-constraint! (div 7) (nthd 5 7))
+    (assert-constraint! (div 5) (nthd 4 6))
+    (assert-constraint! (div 3) (nthd 3 5))
+    (assert-constraint! (div 2) (nthd 2 4))
+    (map-all-pairs (lambda l (assert-constraint! (lambda (a b) (not (= a b))) l)) ds)
+    (foldl + 0
+           (map (lambda (l) (foldl (lambda (a b) (+ (* a 10) b)) 0 l))
+                (all-values (csp-solution ds last)))))
+
+=== License ===
+
+   Copyright 1993-1995 University of Toronto. All rights reserved.
+   Copyright 1996 Technion. All rights reserved.
+   Copyright 1996 and 1997 University of Vermont. All rights reserved.
+   Copyright 1997-2001 NEC Research Institute, Inc. All rights reserved.
+   Copyright 2002-2012 Purdue University. All rights reserved.
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see http://www.gnu.org/licenses.
+__NOTOC__
