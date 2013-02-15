@@ -1,20 +1,12 @@
 ;;;  -*- Hen -*-
 
-((egg "csp.egg")
- (category misc)
+((category data)
  (author "Jeffrey Mark Siskind")
  (maintainer "Andrei Barbu")
  (license "GPL")
- (doc-from-wiki)
  (synopsis "Solve constraint satisfaction problems")
- (depends
-  (setup-helper "1.5.2")
-  (miscmacros "2.91")
-  (check-errors "1.12.0")
-  (condition-utils "1.0.0")
-  (traversal "1.0")
-  (nondeterminism "0.1")
-  (define-structure "0.1"))
+ (depends setup-helper miscmacros check-errors condition-utils
+          traversal nondeterminism define-structure)
  (test-depends test)
  (files "csp.meta" 
         "csp.release-info"
