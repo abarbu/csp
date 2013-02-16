@@ -73,7 +73,7 @@ Only of interest to implementors.
 
 === Examples ===
 
-This solves [[Project Euler problem 43|http://projecteuler.net/problem=43]].
+This solves [[http://projecteuler.net/problem=43|Project Euler problem 43]].
 
   (use traversal nondeterminism csp)
   (let* ((ds (map-n (lambda _ (create-domain-variable (map-n identity 10))) 10))
