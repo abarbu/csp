@@ -75,6 +75,7 @@ Only of interest to implementors.
 
 This solves [[Project Euler problem 43|http://projecteuler.net/problem=43]].
 
+  (use traversal nondeterminism csp)
   (let* ((ds (map-n (lambda _ (create-domain-variable (map-n identity 10))) 10))
   	(d3 (lambda (ns) (+ (* (first ns) 100) (* (second ns) 10) (third ns))))
   	(div (lambda (n) (lambda ns (= (modulo (d3 ns) n) 0))))
