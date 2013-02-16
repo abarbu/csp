@@ -9,7 +9,7 @@ This page is maintained in the package's
 This is a Chicken Scheme egg which solves constraint satisfaction
 problems.
 
-A CSP is compsoed of a number of ''domain-variable''s that have a
+A CSP is composed of a number of ''domain-variable''s that have a
 domain, a set of bindings they can assume, along with a number of
 constraints. This egg supports 5 kinds of constraints: ''efd'' (early
 failure detection), ''fc'' (forward checking), ''vp'' (value
