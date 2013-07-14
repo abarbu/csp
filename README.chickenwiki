@@ -30,12 +30,14 @@ Create a domain variable whose domain is ''domain''.
 
 <procedure>(assert-constraint! constraint domain-variables)</procedure>
 
-Assert a constraint, ''constraint'' is a function that returns a
-boolean, amongst a number of domain variables. The kind of constraint
-is determined by inspecting ''*strategy*''. Valid types are: ''efd''
-(early failure detection), ''fc'' (forward checking), ''vp'' (value
-propagation), ''gfc'' (generalized forward checking) and ''ac'' (arc
-consistency).
+Assert a constraint, a function that returns a boolean, between a
+number of domain variables. The kind of constraint is determined by
+inspecting ''*strategy*''. Valid types are: ''efd'' (early failure
+detection), ''fc'' (forward checking), ''vp'' (value propagation),
+''gfc'' (generalized forward checking) and ''ac'' (arc
+consistency). The default is ''ac''. For constraints of low arity, a
+small number of domain variables, it will use an optimized version of
+the constraint propagation code.
 
 <procedure>(bound? domain-variable)</procedure>
 <procedure>(binding domain-variable)</procedure>
@@ -44,12 +46,6 @@ Determine if the domain variable is bound and what its binding is.
 
 ==== Constraints
 
-<procedure>(assert-unary-constraint-gfc! constraint x)</procedure>
-<procedure>(assert-binary-constraint-gfc! constraint x y)</procedure>
-<procedure>(assert-ternary-constraint-gfc! constraint x y z)</procedure>
-<procedure>(assert-unary-constraint-ac! constraint x)</procedure>
-<procedure>(assert-binary-constraint-ac! constraint x y)</procedure>
-<procedure>(assert-ternary-constraint-ac! constraint x y z)</procedure>
 <procedure>(assert-unary-constraint-efd! constraint x)</procedure>
 <procedure>(assert-binary-constraint-efd! constraint x y)</procedure>
 <procedure>(assert-ternary-constraint-efd! constraint x y z)</procedure>
@@ -59,14 +55,28 @@ Determine if the domain variable is bound and what its binding is.
 <procedure>(assert-unary-constraint-vp! constraint x)</procedure>
 <procedure>(assert-binary-constraint-vp! constraint x y)</procedure>
 <procedure>(assert-ternary-constraint-vp! constraint x y z)</procedure>
+<procedure>(assert-unary-constraint-gfc! constraint x)</procedure>
+<procedure>(assert-binary-constraint-gfc! constraint x y)</procedure>
+<procedure>(assert-ternary-constraint-gfc! constraint x y z)</procedure>
+<procedure>(assert-unary-constraint-ac! constraint x)</procedure>
+<procedure>(assert-binary-constraint-ac! constraint x y)</procedure>
+<procedure>(assert-ternary-constraint-ac! constraint x y z)</procedure>
 
 Assert each of the 5 kinds of constraints between domain-variables
-''x'', ''y'' and ''z''.
+''x'', ''y'' and ''z''. You can always use ''assert-constraint!''
+instead and it will default to these functions if your constraint is
+of low arity.
 
+<procedure>(assert-constraint-efd! constraint ds)</procedure>
+<procedure>(assert-constraint-fc! constraint ds)</procedure>
+<procedure>(assert-constraint-vp! constraint ds)</procedure>
+<procedure>(assert-constraint-gfc! constraint ds)</procedure>
 <procedure>(assert-constraint-ac! constraint ds)</procedure>
 
-Assert an arc consistency constraint between all domain-variables in
-the list ds.
+Assert each of the 5 kinds of constraints between the list of
+domain-variables ds. You can always use ''assert-constraint!''
+instead as it will pick an optimized version for each of the above if
+the arity of the constraint is low.
 
 ==== Low-level
 
@@ -74,7 +84,7 @@ the list ds.
 <procedure>(attach-after-demon! demon x)</procedure>
 <procedure>(restrict-domain! x domain)</procedure>
 
-Only of interest to implementors.
+Only of interest to implementers.
 
 === Examples
 

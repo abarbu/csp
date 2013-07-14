@@ -70,7 +70,7 @@
  (attach-after-demon!
   (lambda ()
    (when (and (null? (rest (domain-variable-domain x)))
-	      (null? (rest (domain-variable-domain z))))
+            (null? (rest (domain-variable-domain z))))
     (let ((xe (first (domain-variable-domain x)))
 	  (ze (first (domain-variable-domain z))))
      (restrict-domain!
@@ -78,7 +78,7 @@
       (remove-if-not (lambda (ye) (constraint xe ye ze))
 		     (domain-variable-domain y)))))
    (when (and (null? (rest (domain-variable-domain x)))
-	      (null? (rest (domain-variable-domain y))))
+            (null? (rest (domain-variable-domain y))))
     (let ((xe (first (domain-variable-domain x)))
 	  (ye (first (domain-variable-domain y))))
      (restrict-domain!
@@ -89,7 +89,7 @@
  (attach-after-demon!
   (lambda ()
    (when (and (null? (rest (domain-variable-domain y)))
-	      (null? (rest (domain-variable-domain z))))
+            (null? (rest (domain-variable-domain z))))
     (let ((ye (first (domain-variable-domain y)))
 	  (ze (first (domain-variable-domain z))))
      (restrict-domain!
@@ -97,7 +97,7 @@
       (remove-if-not (lambda (xe) (constraint xe ye ze))
 		     (domain-variable-domain x)))))
    (when (and (null? (rest (domain-variable-domain y)))
-	      (null? (rest (domain-variable-domain x))))
+            (null? (rest (domain-variable-domain x))))
     (let ((ye (first (domain-variable-domain y)))
 	  (xe (first (domain-variable-domain x))))
      (restrict-domain!
@@ -108,7 +108,7 @@
  (attach-after-demon!
   (lambda ()
    (when (and (null? (rest (domain-variable-domain z)))
-	      (null? (rest (domain-variable-domain x))))
+            (null? (rest (domain-variable-domain x))))
     (let ((ze (first (domain-variable-domain z)))
 	  (xe (first (domain-variable-domain x))))
      (restrict-domain!
@@ -116,7 +116,7 @@
       (remove-if-not (lambda (ye) (constraint xe ye ze))
 		     (domain-variable-domain y)))))
    (when (and (null? (rest (domain-variable-domain z)))
-	      (null? (rest (domain-variable-domain y))))
+            (null? (rest (domain-variable-domain y))))
     (let ((ze (first (domain-variable-domain z)))
 	  (ye (first (domain-variable-domain y))))
      (restrict-domain!
@@ -221,22 +221,22 @@
 
 (define (assert-binary-constraint-efd! constraint x y)
  (for-each
-  (lambda (v)
-   (attach-after-demon!
-    (lambda ()
-     (when (and (bound? x) (bound? y))
-      (unless (constraint (binding x) (binding y)) (fail))))
-    v))
+   (lambda (v)
+    (attach-after-demon!
+     (lambda ()
+      (when (and (bound? x) (bound? y))
+       (unless (constraint (binding x) (binding y)) (fail))))
+     v))
   (list x y)))
 
 (define (assert-ternary-constraint-efd! constraint x y z)
  (for-each
-  (lambda (v)
-   (attach-after-demon!
-    (lambda ()
-     (when (and (bound? x) (bound? y) (bound? z))
-      (unless (constraint (binding x) (binding y) (binding z)) (fail))))
-    v))
+   (lambda (v)
+    (attach-after-demon!
+     (lambda ()
+      (when (and (bound? x) (bound? y) (bound? z))
+       (unless (constraint (binding x) (binding y) (binding z)) (fail))))
+     v))
   (list x y z)))
 
 (define (assert-unary-constraint-fc! constraint x)
@@ -248,38 +248,38 @@
 
 (define (assert-binary-constraint-fc! constraint x y)
  (for-each
-  (lambda (v)
-   (attach-after-demon!
-    (lambda ()
-     (when (bound? x)
-      (unless (some (lambda (ye) (constraint (binding x) ye))
-		    (domain-variable-domain y))
-       (fail)))
-     (when (bound? y)
-      (unless (some (lambda (xe) (constraint xe (binding y)))
-		    (domain-variable-domain x))
-       (fail))))
-    v))
+   (lambda (v)
+    (attach-after-demon!
+     (lambda ()
+      (when (bound? x)
+       (unless (some (lambda (ye) (constraint (binding x) ye))
+                     (domain-variable-domain y))
+        (fail)))
+      (when (bound? y)
+       (unless (some (lambda (xe) (constraint xe (binding y)))
+                     (domain-variable-domain x))
+        (fail))))
+     v))
   (list x y)))
 
 (define (assert-ternary-constraint-fc! constraint x y z)
  (for-each
-  (lambda (v)
-   (attach-after-demon!
-    (lambda ()
-     (when (and (bound? x) (bound? y))
-      (unless (some (lambda (ze) (constraint (binding x) (binding y) ze))
-		    (domain-variable-domain z))
-       (fail)))
-     (when (and (bound? x) (bound? z))
-      (unless (some (lambda (ye) (constraint (binding x) ye (binding z)))
-		    (domain-variable-domain y))
-       (fail)))
-     (when (and (bound? y) (bound? z))
-      (unless (some (lambda (xe) (constraint xe (binding y) (binding z)))
-		    (domain-variable-domain x))
-       (fail))))
-    v))
+   (lambda (v)
+    (attach-after-demon!
+     (lambda ()
+      (when (and (bound? x) (bound? y))
+       (unless (some (lambda (ze) (constraint (binding x) (binding y) ze))
+                     (domain-variable-domain z))
+        (fail)))
+      (when (and (bound? x) (bound? z))
+       (unless (some (lambda (ye) (constraint (binding x) ye (binding z)))
+                     (domain-variable-domain y))
+        (fail)))
+      (when (and (bound? y) (bound? z))
+       (unless (some (lambda (xe) (constraint xe (binding y) (binding z)))
+                     (domain-variable-domain x))
+        (fail))))
+     v))
   (list x y z)))
 
 (define (assert-unary-constraint-vp! constraint x)
@@ -292,104 +292,174 @@
 
 (define (assert-binary-constraint-vp! constraint x y)
  (for-each
-  (lambda (v)
-   (attach-after-demon!
-    (lambda ()
-     (when (bound? x)
-      (when (one (lambda (ye) (constraint (binding x) ye))
-		 (domain-variable-domain y))
-       (restrict-domain!
-	y (list (find-if (lambda (ye) (constraint (binding x) ye))
-			 (domain-variable-domain y))))))
-     (when (bound? y)
-      (when (one (lambda (xe) (constraint xe (binding y)))
-		 (domain-variable-domain x))
-       (restrict-domain!
-	x (list (find-if (lambda (xe) (constraint xe (binding y)))
-			 (domain-variable-domain x)))))))
-    v))
+   (lambda (v)
+    (attach-after-demon!
+     (lambda ()
+      (when (bound? x)
+       (when (one (lambda (ye) (constraint (binding x) ye))
+                  (domain-variable-domain y))
+        (restrict-domain!
+         y (list (find-if (lambda (ye) (constraint (binding x) ye))
+                          (domain-variable-domain y))))))
+      (when (bound? y)
+       (when (one (lambda (xe) (constraint xe (binding y)))
+                  (domain-variable-domain x))
+        (restrict-domain!
+         x (list (find-if (lambda (xe) (constraint xe (binding y)))
+                          (domain-variable-domain x)))))))
+     v))
   (list x y)))
 
 (define (assert-ternary-constraint-vp! constraint x y z)
  (for-each
-  (lambda (v)
-   (attach-after-demon!
-    (lambda ()
-     (when (and (bound? x) (bound? y))
-      (when (one (lambda (ze) (constraint (binding x) (binding y) ze))
-		 (domain-variable-domain z))
-       (restrict-domain!
-	z (list (find-if (lambda (ze) (constraint (binding x) (binding y) ze))
-			 (domain-variable-domain z))))))
-     (when (and (bound? x) (bound? z))
-      (when (one (lambda (ye) (constraint (binding x) ye (binding z)))
-		 (domain-variable-domain y))
-       (restrict-domain!
-	y (list (find-if (lambda (ye) (constraint (binding x) ye (binding z)))
-			 (domain-variable-domain y))))))
-     (when (and (bound? y) (bound? z))
-      (when (one (lambda (xe) (constraint xe (binding y) (binding z)))
-		 (domain-variable-domain x))
-       (restrict-domain!
-	x (list (find-if (lambda (xe) (constraint xe (binding y) (binding z)))
-			 (domain-variable-domain x)))))))
-    v))
+   (lambda (v)
+    (attach-after-demon!
+     (lambda ()
+      (when (and (bound? x) (bound? y))
+       (when (one (lambda (ze) (constraint (binding x) (binding y) ze))
+                  (domain-variable-domain z))
+        (restrict-domain!
+         z (list (find-if (lambda (ze) (constraint (binding x) (binding y) ze))
+                          (domain-variable-domain z))))))
+      (when (and (bound? x) (bound? z))
+       (when (one (lambda (ye) (constraint (binding x) ye (binding z)))
+                  (domain-variable-domain y))
+        (restrict-domain!
+         y (list (find-if (lambda (ye) (constraint (binding x) ye (binding z)))
+                          (domain-variable-domain y))))))
+      (when (and (bound? y) (bound? z))
+       (when (one (lambda (xe) (constraint xe (binding y) (binding z)))
+                  (domain-variable-domain x))
+        (restrict-domain!
+         x (list (find-if (lambda (xe) (constraint xe (binding y) (binding z)))
+                          (domain-variable-domain x)))))))
+     v))
   (list x y z)))
 
 (define (assert-constraint! constraint domain-variables)
- (cond
-  ((= (length domain-variables) 1)
-   (case *csp-strategy*
-    ((efd) (assert-unary-constraint-efd! constraint (first domain-variables)))
-    ((fc) (assert-unary-constraint-fc! constraint (first domain-variables)))
-    ((vp) (assert-unary-constraint-fc! constraint (first domain-variables))
-     (assert-unary-constraint-vp! constraint (first domain-variables)))
-    ((gfc) (assert-unary-constraint-gfc! constraint (first domain-variables)))
-    ((ac) (assert-unary-constraint-ac! constraint (first domain-variables)))
-    (else (error "Unrecognized strategy"))))
-  ((= (length domain-variables) 2)
-   (case *csp-strategy*
-    ((efd) (assert-binary-constraint-efd!
-	    constraint (first domain-variables) (second domain-variables)))
-    ((fc) (assert-binary-constraint-fc!
-	   constraint (first domain-variables) (second domain-variables)))
-    ((vp) (assert-binary-constraint-fc!
-	   constraint (first domain-variables) (second domain-variables))
-     (assert-binary-constraint-vp!
-      constraint (first domain-variables) (second domain-variables)))
-    ((gfc) (assert-binary-constraint-gfc!
-	    constraint (first domain-variables) (second domain-variables)))
-    ((ac) (assert-binary-constraint-ac!
-	   constraint (first domain-variables) (second domain-variables)))
-    (else (error "Unrecognized strategy"))))
-  ((= (length domain-variables) 3)
-   (case *csp-strategy*
-    ((efd) (assert-ternary-constraint-efd! constraint
-					   (first domain-variables)
-					   (second domain-variables)
-					   (third domain-variables)))
-    ((fc) (assert-ternary-constraint-fc! constraint
-					 (first domain-variables)
-					 (second domain-variables)
-					 (third domain-variables)))
-    ((vp) (assert-ternary-constraint-fc! constraint
-					 (first domain-variables)
-					 (second domain-variables)
-					 (third domain-variables))
-     (assert-ternary-constraint-vp! constraint
-				    (first domain-variables)
-				    (second domain-variables)
-				    (third domain-variables)))
-    ((gfc) (assert-ternary-constraint-gfc! constraint
-					   (first domain-variables)
-					   (second domain-variables)
-					   (third domain-variables)))
-    ((ac) (assert-ternary-constraint-ac! constraint
-					 (first domain-variables)
-					 (second domain-variables)
-					 (third domain-variables)))
-    (else (error "Unrecognized strategy"))))
-  (else (error "Can only handle unary, binary and ternary constraints"))))
+ (case *csp-strategy*
+  ((efd)
+   (case (length domain-variables)
+    ((1) (assert-unary-constraint-efd! constraint (first domain-variables)))
+    ((2) (assert-binary-constraint-efd!
+          constraint (first domain-variables) (second domain-variables)))
+    ((3) (assert-ternary-constraint-efd! constraint
+                                         (first domain-variables)
+                                         (second domain-variables)
+                                         (third domain-variables)))
+    (else (assert-constraint-efd! constraint domain-variables))))
+  ((fc)
+   (case (length domain-variables)
+    ((1) (assert-unary-constraint-fc! constraint (first domain-variables)))
+    ((2) (assert-binary-constraint-fc!
+          constraint (first domain-variables) (second domain-variables)))
+    ((3) (assert-ternary-constraint-fc! constraint
+                                        (first domain-variables)
+                                        (second domain-variables)
+                                        (third domain-variables)))
+    (else (assert-constraint-fc! constraint domain-variables))))
+  ((vp)
+   (case (length domain-variables)
+    ((1) (assert-unary-constraint-vp! constraint (first domain-variables)))
+    ((2) (assert-binary-constraint-vp!
+          constraint (first domain-variables) (second domain-variables)))
+    ((3) (assert-ternary-constraint-vp! constraint
+                                        (first domain-variables)
+                                        (second domain-variables)
+                                        (third domain-variables)))
+    (else (assert-constraint-vp! constraint domain-variables))))
+  ((gfc)
+   (case (length domain-variables)
+    ((1) (assert-unary-constraint-gfc! constraint (first domain-variables)))
+    ((2) (assert-binary-constraint-gfc!
+          constraint (first domain-variables) (second domain-variables)))
+    ((3) (assert-ternary-constraint-gfc! constraint
+                                         (first domain-variables)
+                                         (second domain-variables)
+                                         (third domain-variables)))
+    (else (assert-constraint-gfc! constraint domain-variables))))
+  ((ac)
+   (case (length domain-variables)
+    ((1) (assert-unary-constraint-ac! constraint (first domain-variables)))
+    ((2) (assert-binary-constraint-ac!
+          constraint (first domain-variables) (second domain-variables)))
+    ((3) (assert-ternary-constraint-ac! constraint
+                                        (first domain-variables)
+                                        (second domain-variables)
+                                        (third domain-variables)))
+    (else (assert-constraint-ac! constraint domain-variables))))
+  (else (error "Unrecognized strategy"))))
+
+(define (assert-constraint-efd! constraint xs)
+ (for-each
+   (lambda (x)
+    (attach-after-demon!
+     (lambda ()
+      (when (every bound? xs)
+       (unless (apply constraint (map binding xs)) (fail))))
+     x))
+  xs))
+
+(define (assert-constraint-fc! constraint xs)
+ (for-each
+   (lambda (x)
+    (attach-after-demon!
+     (lambda ()
+      (when (one (lambda (x) (not (bound? x))) xs)
+       (let* ((i (position-if (lambda (x) (not (bound? x))) xs))
+              (x (list-ref xs i)))
+        (unless (some
+                 (lambda (xe)
+                  (apply
+                   constraint
+                   (map-indexed (lambda (x j) (if (= j i) xe (binding x))) xs)))
+                 (domain-variable-domain x))
+         (fail)))))
+     x))
+  xs))
+
+(define (assert-constraint-vp! constraint xs)
+ (for-each
+   (lambda (x)
+    (attach-after-demon!
+     (lambda ()
+      (when (one (lambda (x) (not (bound? x))) xs)
+       (let* ((i (position-if (lambda (x) (not (bound? x))) xs))
+              (x (list-ref xs i)))
+        (when (one
+               (lambda (xe)
+                (apply
+                 constraint
+                 (map-indexed (lambda (x j) (if (= j i) xe (binding x))) xs)))
+               (domain-variable-domain x))
+         (restrict-domain!
+          x
+          (list
+           (find-if
+            (lambda (xe)
+             (apply constraint
+                    (map-indexed (lambda (x j) (if (= j i) xe (binding x))) xs)))
+            (domain-variable-domain x))))))))
+     x))
+  xs))
+
+(define (assert-constraint-gfc! constraint xs)
+ (for-each
+   (lambda (x)
+    (attach-after-demon!
+     (lambda ()
+      (when (one (lambda (x) (not (bound? x))) xs)
+       (let* ((i (position-if (lambda (x) (not (bound? x))) xs))
+              (x (list-ref xs i)))
+        (restrict-domain!
+         x
+         (remove-if-not
+          (lambda (xe)
+           (apply constraint
+                  (map-indexed (lambda (x j) (if (= j i) xe (binding x))) xs)))
+          (domain-variable-domain x))))))
+     x))
+  xs))
 
 (define (assert-constraint-ac! constraint ds)
  (for-each-indexed
@@ -408,8 +478,7 @@
 		(apply constraint (reverse xs))
 		(if (= j i)
 		    (loop (rest ds) (cons x xs) (+ j 1))
-		    (some (lambda (pair)
-			   (loop (rest ds) (cons (car pair) xs) (+ j 1)))
+		    (some (lambda (e) (loop (rest ds) (cons e xs) (+ j 1)))
 			  (domain-variable-domain (first ds)))))))
 	  (domain-variable-domain d)))))
       ds))

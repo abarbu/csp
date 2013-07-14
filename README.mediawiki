@@ -25,12 +25,14 @@ Create a domain variable whose domain is ''domain''.
 
 :(assert-constraint! constraint domain-variables)
 
-Assert a constraint, ''constraint'' is a function that returns a
-boolean, amongst a number of domain variables. The kind of constraint
-is determined by inspecting ''*strategy*''. Valid types are: ''efd''
-(early failure detection), ''fc'' (forward checking), ''vp'' (value
-propagation), ''gfc'' (generalized forward checking) and ''ac'' (arc
-consistency).
+Assert a constraint, a function that returns a boolean, between a
+number of domain variables. The kind of constraint is determined by
+inspecting ''*strategy*''. Valid types are: ''efd'' (early failure
+detection), ''fc'' (forward checking), ''vp'' (value propagation),
+''gfc'' (generalized forward checking) and ''ac'' (arc
+consistency). The default is ''ac''. For constraints of low arity, a
+small number of domain variables, it will use an optimized version of
+the constraint propagation code.
 
 :(bound? domain-variable)
 :(binding domain-variable)
@@ -39,12 +41,6 @@ Determine if the domain variable is bound and what its binding is.
 
 ==== Constraints ====
 
-:(assert-unary-constraint-gfc! constraint x)
-:(assert-binary-constraint-gfc! constraint x y)
-:(assert-ternary-constraint-gfc! constraint x y z)
-:(assert-unary-constraint-ac! constraint x)
-:(assert-binary-constraint-ac! constraint x y)
-:(assert-ternary-constraint-ac! constraint x y z)
 :(assert-unary-constraint-efd! constraint x)
 :(assert-binary-constraint-efd! constraint x y)
 :(assert-ternary-constraint-efd! constraint x y z)
@@ -54,14 +50,28 @@ Determine if the domain variable is bound and what its binding is.
 :(assert-unary-constraint-vp! constraint x)
 :(assert-binary-constraint-vp! constraint x y)
 :(assert-ternary-constraint-vp! constraint x y z)
+:(assert-unary-constraint-gfc! constraint x)
+:(assert-binary-constraint-gfc! constraint x y)
+:(assert-ternary-constraint-gfc! constraint x y z)
+:(assert-unary-constraint-ac! constraint x)
+:(assert-binary-constraint-ac! constraint x y)
+:(assert-ternary-constraint-ac! constraint x y z)
 
 Assert each of the 5 kinds of constraints between domain-variables
-''x'', ''y'' and ''z''.
+''x'', ''y'' and ''z''. You can always use ''assert-constraint!''
+instead and it will default to these functions if your constraint is
+of low arity.
 
+:(assert-constraint-efd! constraint ds)
+:(assert-constraint-fc! constraint ds)
+:(assert-constraint-vp! constraint ds)
+:(assert-constraint-gfc! constraint ds)
 :(assert-constraint-ac! constraint ds)
 
-Assert an arc consistency constraint between all domain-variables in
-the list ds.
+Assert each of the 5 kinds of constraints between the list of
+domain-variables ds. You can always use ''assert-constraint!''
+instead as it will pick an optimized version for each of the above if
+the arity of the constraint is low.
 
 ==== Low-level ====
 
@@ -69,7 +79,7 @@ the list ds.
 :(attach-after-demon! demon x)
 :(restrict-domain! x domain)
 
-Only of interest to implementors.
+Only of interest to implementers.
 
 === Examples ===
 
