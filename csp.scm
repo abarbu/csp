@@ -1,6 +1,7 @@
 (module csp *
 (import chicken scheme extras)
 (use nondeterminism define-structure srfi-1 traversal)
+(reexport nondeterminism)
 
 (define-structure domain-variable domain before-demons after-demons)
 (define  *csp-strategy* 'ac)
