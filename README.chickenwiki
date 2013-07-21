@@ -28,11 +28,12 @@ solution to the CSP.
 
 Create a domain variable whose domain is ''domain''.
 
+<parameter>*csp-strategy*</parameter>
 <procedure>(assert-constraint! constraint domain-variables)</procedure>
 
 Assert a constraint, a function that returns a boolean, between a
 number of domain variables. The kind of constraint is determined by
-inspecting ''*strategy*''. Valid types are: ''efd'' (early failure
+inspecting ''*csp-strategy*''. Valid types are: ''efd'' (early failure
 detection), ''fc'' (forward checking), ''vp'' (value propagation),
 ''gfc'' (generalized forward checking) and ''ac'' (arc
 consistency). The default is ''ac''. For constraints of low arity, a
