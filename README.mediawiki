@@ -13,18 +13,18 @@ consistency).
 
 ==== High-level ====
 
-:(csp-solution domain-variables select)
+: (csp-solution domain-variables select)
 
 Given a list of domain variables and a function to select which one to
 try to bind next, one can simply pass in ''first'', this produces a
 solution to the CSP.
 
-:(create-domain-variable domain)
+: (create-domain-variable domain)
 
 Create a domain variable whose domain is ''domain''.
 
-:*csp-strategy*
-:(assert-constraint! constraint domain-variables)
+: *csp-strategy*
+: (assert-constraint! constraint domain-variables)
 
 Assert a constraint, a function that returns a boolean, between a
 number of domain variables. The kind of constraint is determined by
@@ -35,39 +35,39 @@ consistency). The default is ''ac''. For constraints of low arity, a
 small number of domain variables, it will use an optimized version of
 the constraint propagation code.
 
-:(bound? domain-variable)
-:(binding domain-variable)
+: (bound? domain-variable)
+: (binding domain-variable)
 
 Determine if the domain variable is bound and what its binding is.
 
 ==== Constraints ====
 
-:(assert-unary-constraint-efd! constraint x)
-:(assert-binary-constraint-efd! constraint x y)
-:(assert-ternary-constraint-efd! constraint x y z)
-:(assert-unary-constraint-fc! constraint x)
-:(assert-binary-constraint-fc! constraint x y)
-:(assert-ternary-constraint-fc! constraint x y z)
-:(assert-unary-constraint-vp! constraint x)
-:(assert-binary-constraint-vp! constraint x y)
-:(assert-ternary-constraint-vp! constraint x y z)
-:(assert-unary-constraint-gfc! constraint x)
-:(assert-binary-constraint-gfc! constraint x y)
-:(assert-ternary-constraint-gfc! constraint x y z)
-:(assert-unary-constraint-ac! constraint x)
-:(assert-binary-constraint-ac! constraint x y)
-:(assert-ternary-constraint-ac! constraint x y z)
+: (assert-unary-constraint-efd! constraint x)
+: (assert-binary-constraint-efd! constraint x y)
+: (assert-ternary-constraint-efd! constraint x y z)
+: (assert-unary-constraint-fc! constraint x)
+: (assert-binary-constraint-fc! constraint x y)
+: (assert-ternary-constraint-fc! constraint x y z)
+: (assert-unary-constraint-vp! constraint x)
+: (assert-binary-constraint-vp! constraint x y)
+: (assert-ternary-constraint-vp! constraint x y z)
+: (assert-unary-constraint-gfc! constraint x)
+: (assert-binary-constraint-gfc! constraint x y)
+: (assert-ternary-constraint-gfc! constraint x y z)
+: (assert-unary-constraint-ac! constraint x)
+: (assert-binary-constraint-ac! constraint x y)
+: (assert-ternary-constraint-ac! constraint x y z)
 
 Assert each of the 5 kinds of constraints between domain-variables
 ''x'', ''y'' and ''z''. You can always use ''assert-constraint!''
 instead and it will default to these functions if your constraint is
 of low arity.
 
-:(assert-constraint-efd! constraint ds)
-:(assert-constraint-fc! constraint ds)
-:(assert-constraint-vp! constraint ds)
-:(assert-constraint-gfc! constraint ds)
-:(assert-constraint-ac! constraint ds)
+: (assert-constraint-efd! constraint ds)
+: (assert-constraint-fc! constraint ds)
+: (assert-constraint-vp! constraint ds)
+: (assert-constraint-gfc! constraint ds)
+: (assert-constraint-ac! constraint ds)
 
 Assert each of the 5 kinds of constraints between the list of
 domain-variables ds. You can always use ''assert-constraint!''
@@ -76,9 +76,9 @@ the arity of the constraint is low.
 
 ==== Low-level ====
 
-:(attach-before-demon! demon x)
-:(attach-after-demon! demon x)
-:(restrict-domain! x domain)
+: (attach-before-demon! demon x)
+: (attach-after-demon! demon x)
+: (restrict-domain! x domain)
 
 Only of interest to implementers.
 
